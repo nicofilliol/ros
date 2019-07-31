@@ -16,6 +16,8 @@ private:
         auto msg = geometry_msgs::Twist();
         
         // TODO: Control code goes here
+        msg.linear.x = 2.0; // move forward (m/s -> unit of measure convention)
+        msg.angular.z = 1.0; // turn counterclockwise (rad/s -> unit of measure convetion)
 
         return msg;
     }
@@ -38,7 +40,7 @@ public:
             auto msg = calculateCommand();
 
             // Publish the new command
-            // TODO
+            this->cmd_vel_pub.publish(msg);
 
             // And throttle the loop
             loop_rate.sleep();
