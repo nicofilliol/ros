@@ -11,13 +11,16 @@ private:
     ros::NodeHandle n;
     ros::Publisher cmd_vel_pub;
 
+    float linear_vel;
+    float angular_vel;
+
     geometry_msgs::Twist calculateCommand()
     {
         auto msg = geometry_msgs::Twist();
         
         // TODO: Control code goes here
-        msg.linear.x = 2.0; // move forward (m/s -> unit of measure convention)
-        msg.angular.z = 1.0; // turn counterclockwise (rad/s -> unit of measure convetion)
+        msg.linear.x = linear_vel; // move forward (m/s -> unit of measure convention)
+        msg.angular.z = angular_vel; // turn counterclockwise (rad/s -> unit of measure convention)
 
         return msg;
     }
@@ -28,7 +31,12 @@ public:
         this->n = ros::NodeHandle();
 
         // Create a publisher object, able to push messages
-        this->cmd_vel_pub = this->n.advertise<geometry_msgs::Twist>("cmd_vel", 5);
+        this->cmd_vel_pub = this->n.advertise<geometry_msgs::Twist>("cmd_vel", 5); // size of queue
+
+        // Read parameters from server
+        auto priv_nh = ros::NodeHandle("~"); // node handle declared in private space
+        priv_nh.getParam("linear_vel", this->linear_vel);
+        priv_nh.getParam("angular_vel", this->angular_vel);
     }
 
     void run(){
