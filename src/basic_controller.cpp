@@ -26,7 +26,7 @@ public:
         this->n = ros::NodeHandle();
 
         // Create a publisher object, able to push messages
-        // TODO
+        this->cmd_vel_pub = this->n.advertise<geometry_msgs::Twist>("cmd_vel", 5);
     }
 
     void run(){
