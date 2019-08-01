@@ -4,6 +4,7 @@
 #include "std_msgs/String.h"
 #include "geometry_msgs/Twist.h"
 #include "std_srvs/Empty.h"
+#include "turtlesim/Pose.h"
 
 
 class TurtleController
@@ -12,6 +13,9 @@ private:
     ros::NodeHandle n;
     ros::Publisher cmd_vel_pub;
     ros::ServiceServer pause_server;
+    ros::Subscriber pose_sub;
+
+    turtlesim::Pose latest_pose;
 
     float linear_vel;
     float angular_vel;
@@ -24,6 +28,9 @@ private:
         
         // TODO: Control code goes here
         if (this->is_moving) { 
+            // Update the control values
+            this->calculateCommand();
+            
             msg.linear.x = linear_vel; // move forward (m/s -> unit of measure convention)
             msg.angular.z = angular_vel; // turn counterclockwise (rad/s -> unit of measure convention)
         }
@@ -35,6 +42,19 @@ private:
         this->is_moving = !(this->is_moving);
 
         return true;
+    }
+
+    void poseUpdate(const turtlesim::Pose::ConstPtr &msg) {
+        this->latest_pose.x = msg->x;
+        this->latest_pose.y = msg->y;
+        this->latest_pose.theta = msg->theta;
+        this->latest_pose.linear_velocity = msg->theta;
+        this->latest_pose.angular_velocity = msg->theta;
+    }
+
+    void commandUpdate() {
+        this->linear_vel = 0;
+        this->angular_vel = 0;
     }
 
 public:
@@ -54,6 +74,9 @@ public:
         auto priv_nh = ros::NodeHandle("~"); // node handle declared in private space
         priv_nh.getParam("linear_vel", this->linear_vel);
         priv_nh.getParam("angular_vel", this->angular_vel);
+
+        // Get position of turtle
+        this->pose_sub = this->n.subscribe("pose", 10, &TurtleController::poseUpdate, this);
     }
 
     void run(){
