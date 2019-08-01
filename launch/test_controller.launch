@@ -5,7 +5,7 @@
 	<!-- TODO: launch our node and remap the cmd_vel topic -->
     <node pkg="turtlebot_control" type="basic_controller" name="controller" output="screen">
     <remap from="cmd_vel" to="turtle1/cmd_vel"/>
-    <param name="linear_vel" value="0.5"/>
+    <param name="linear_vel" value="2.0"/>
     <param name="angular_vel" value="1.0"/>
     </node>
 </launch>
