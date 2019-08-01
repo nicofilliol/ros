@@ -1,0 +1,5 @@
+<launch>    
+    <!-- Run spawn script (possible to pass args="") -->
+	<node pkg="turtlebot_control" type="spawn.sh" name="spawn_turtle2" output="screen"/>
+	<node pkg="turtlebot_control" type="spawn2.sh" name="spawn_turtle3" output="screen"/>
+</launch>    
