@@ -4,18 +4,21 @@
 
 	<node pkg="turtlebot_control" type="basic_controller" name="controller_1" output="screen">
 		<remap from="cmd_vel" to="turtle1/cmd_vel"/>
+		<remap from="pose" to="turtle1/pose"/>
 		<param name="linear_vel" value="3.0"/>
 		<param name="angular_vel" value="3.0"/>
 	</node>
 
 	<node pkg="turtlebot_control" type="basic_controller" name="controller_2" output="screen">
 		<remap from="cmd_vel" to="turtle2/cmd_vel"/>
+		<remap from="pose" to="turtle2/pose"/>
 		<param name="linear_vel" value="1.0"/>
 		<param name="angular_vel" value="-1.0"/>
 	</node>
 
     <node pkg="turtlebot_control" type="basic_controller" name="controller_3" output="screen">
 		<remap from="cmd_vel" to="turtle3/cmd_vel"/>
+	    <remap from="pose" to="turtle3/pose"/>	
 		<param name="linear_vel" value="5.0"/>
 		<param name="angular_vel" value="-1.0"/>
 	</node>

@@ -29,7 +29,7 @@ private:
         // TODO: Control code goes here
         if (this->is_moving) { 
             // Update the control values
-            this->calculateCommand();
+            this->commandUpdate();
             
             msg.linear.x = linear_vel; // move forward (m/s -> unit of measure convention)
             msg.angular.z = angular_vel; // turn counterclockwise (rad/s -> unit of measure convention)
@@ -53,8 +53,8 @@ private:
     }
 
     void commandUpdate() {
-        this->linear_vel = 0;
-        this->angular_vel = 0;
+        this->linear_vel = this->latest_pose.x;
+        //this->angular_vel = 0;
     }
 
 public:
